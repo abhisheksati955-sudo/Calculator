@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            box-sizing: border-box;
+            margin: 0;
+        }
+        .container{
+        border: 2px solid black;
+        display: grid;
+        grid-template-columns: repeat(4, 80px);
+        grid-template-rows: repeat(6, 80px );
+        height: 100vh; 
+        justify-content: center;
+        align-content: center;
+        gap :15px;
+        background-color: #333;
+        }
+        .item{
+             text-align: center;
+             padding: 30px;
+             border: 1px solid #333;
+             border-radius: 15px;
+             font-size: 20px;
+             cursor : pointer;
+             transition: all 0.2s ease;
+             user-select: none; 
+        }
+        .item:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(219, 15, 15, 0.4);
+        }
+        .item:active{
+            transform: scale(1.99);
+        }
+        .box1{
+            background-color: lightcyan;
+            grid-column: 1/5;
+            grid-row: 1/2;
+            text-align: end;
+        }
+        .box2{
+            background-color: #ef4444;
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+        .box3{
+            background-color: #3b82f6;
+            grid-column: 2/3;
+            grid-row: 2/3;
+        }
+        .box4{
+            background-color: #ef4444;
+            grid-column: 3/4;
+            grid-row: 2/3;
+        }
+        .box5{
+            background-color: #facc15;
+            grid-column: 4/5;
+            grid-row: 2/3;
+        }
+        .box6{
+            background-color: #e5e7eb;
+            grid-column: 1/2;
+            grid-row: 3/4;
+        }
+        .box7{
+            background-color: #e5e7eb;
+             grid-column: 2/3;
+            grid-row: 3/4;
+        }
+        .box8{
+            background-color: #e5e7eb;
+             grid-column: 3/4;
+            grid-row: 3/4;
+        }
+        .box9{
+            background-color: #facc15;
+             grid-column: 4/5;
+            grid-row: 3/4;
+        }
+        .box10{
+            background-color: #e5e7eb;
+             grid-column: 1/2;
+            grid-row: 4/5;
+        }
+        .box11{
+            background-color: wheat;
+            grid-column: 2/3;
+            grid-row: 4/5;
+        }
+        .box12{
+            background-color: #e5e7eb;
+            grid-column: 3/4;
+            grid-row: 4/5;
+        }
+        .box13{
+            background-color: #facc15;
+            grid-column: 4/5;
+            grid-row: 4/5;
+        }
+         .box14{
+            background-color: #e5e7eb;
+            grid-column: 1/2;
+            grid-row: 5/6;
+        }
+         .box15{
+            background-color: #e5e7eb;
+            grid-column: 2/3;
+            grid-row: 5/6;
+        }
+         .box16{
+            background-color: #e5e7eb;
+            grid-column: 3/4;
+            grid-row: 5/6;
+        }
+         .box17{
+            background-color: #facc15;
+            grid-column: 4/5;
+            grid-row: 5/6;
+        }
+         .box18{
+            background-color: #e5e7eb;
+            grid-column: 1/2;
+            grid-row: 6/7;
+        }
+         .box19{
+            background-color: #e5e7eb;
+            grid-column: 2/3;
+            grid-row: 6/7;
+        }
+         .box20{
+            background-color: #e5e7eb;
+            grid-column: 3/4;
+            grid-row: 6/7;
+        }
+         .box21{
+            background-color: #22c55e;
+            color: white;
+            grid-column: 4/5;
+            grid-row: 6/7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item box1" id="display"><b>0</b></div>
+        <div class="item box2"><b>C</b></div>
+        <div class="item box3"><b>%</b></div>
+        <div class="item box4"><b>del</b></div>
+        <div class="item box5"><b>÷</b></div>
+        <div class="item box6"><b>7</b></div>
+        <div class="item box7"><b>8</b></div>
+        <div class="item box8"><b>9</b></div>
+        <div class="item box9"><b>×</b></div>
+        <div class="item box10"><b>4</b></div>
+        <div class="item box11"><b>5</b></div>
+        <div class="item box12"><b>6</b></div>
+        <div class="item box13"><b>-</b></div>
+        <div class="item box14"><b>1</b></div>
+        <div class="item box15"><b>2</b></div>
+        <div class="item box16"><b>3</b></div>
+        <div class="item box17"><b>+</b></div>
+        <div class="item box18"><b>00</b></div>
+        <div class="item box19"><b>0</b></div>
+        <div class="item box20"><b>.</b></div>
+        <div class="item box21"><b>=</b></div>
+    </div>
+    <script>
+  const display = document.getElementById("display");
+  const buttons = document.querySelectorAll(".item");
+
+  let currentInput = "";
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const value = btn.innerText.trim();
+
+      if (value === "C") {
+        currentInput = "";
+        updateDisplay("0");
+        return;
+      }
+
+      if (value === "del") {
+        currentInput = currentInput.slice(0, -1);
+        updateDisplay(currentInput || "0");
+        return;
+      }
+
+      if (value === "=") {
+        try {
+          // Replace symbols with JS operators
+          const result = eval(
+            currentInput
+              .replace(/×/g, "*")
+              .replace(/÷/g, "/")
+          );
+          currentInput = result.toString();
+          updateDisplay(currentInput);
+        } catch {
+          updateDisplay("Error");
+          currentInput = "";
+        }
+        return;
+      }
+
+      // Prevent multiple operators in a row
+      const lastChar = currentInput.slice(-1);
+      if (isOperator(lastChar) && isOperator(value)) return;
+
+      currentInput += value;
+      updateDisplay(currentInput);
+    });
+  });
+
+  function updateDisplay(value) {
+    display.innerHTML = `<b>${value}</b>`;
+  }
+
+  function isOperator(char) {
+    return ["+", "-", "×", "÷", "%"].includes(char);
+  }
+  document.addEventListener("keydown", (e) => {
+  const key = e.key;
+
+  // Numbers
+  if (!isNaN(key)) {
+    currentInput += key;
+    updateDisplay(currentInput);
+  }
+
+  // Operators
+  else if (["+", "-", "*", "/", "%"].includes(key)) {
+    const operatorMap = {
+      "*": "×",
+      "/": "÷"
+    };
+
+    const lastChar = currentInput.slice(-1);
+    const op = operatorMap[key] || key;
+
+    if (!isOperator(lastChar)) {
+      currentInput += op;
+      updateDisplay(currentInput);
+    }
+  }
+
+  // Enter = Calculate
+  else if (key === "Enter") {
+    try {
+      const result = eval(
+        currentInput.replace(/×/g, "*").replace(/÷/g, "/")
+      );
+      currentInput = result.toString();
+      updateDisplay(currentInput);
+    } catch {
+      updateDisplay("Error");
+      currentInput = "";
+    }
+  }
+
+  // Backspace = del
+  else if (key === "Backspace") {
+    currentInput = currentInput.slice(0, -1);
+    updateDisplay(currentInput || "0");
+  }
+
+  // Escape = Clear
+  else if (key === "Escape") {
+    currentInput = "";
+    updateDisplay("0");
+  }
+});
+</script>
+
+</body>
+</html>
